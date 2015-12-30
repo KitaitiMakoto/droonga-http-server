@@ -300,6 +300,7 @@ prepare_environment_in_debian() {
 prepare_environment_in_centos() {
   yum -y install curl
   yum groupinstall "Development Tools"
+  curl https://nodejs.org/download/release/v0.12.9/node-v0.12.9-linux-x64.tar.gz | tar --strip-components 1 -xzv -C /usr/local
 
   if [ "$VERSION" != "release" ]; then
     yum -y install git
