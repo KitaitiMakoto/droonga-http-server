@@ -299,6 +299,7 @@ prepare_environment_in_debian() {
 # ========================= for CentOS 7 ============================
 prepare_environment_in_centos() {
   yum -y install curl
+  yum groupinstall "Development Tools"
 
   if [ "$VERSION" != "release" ]; then
     yum -y install git
