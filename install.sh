@@ -43,11 +43,17 @@ TEMPDIR=/tmp/install-$NAME
 
 EXPRESS_DROONGA_REPOSITORY_URL=git://github.com/droonga/express-droonga.git#master
 
+NODE_BASE_URL=https://nodejs.org/download/release
+
 : ${VERSION:=release}
 : ${HOST:=Auto Detect}
 : ${PORT:=10041}
 : ${ENGINE_HOST:=Auto Detect}
 : ${ENGINE_PORT:=Auto Detect}
+: ${NODE_VERSION:=v0.12.9}
+: ${NODE_ARCH:=x64}
+
+NODE_DOWNLOAD_URL=$NODE_BASE_URL/$NODE_VERSION/node-$NODE_VERSION-linux-$NODE_ARCH.tar.gz
 
 case $(uname) in
   Darwin|*BSD|CYGWIN*) sed="sed -E" ;;
@@ -300,7 +306,7 @@ prepare_environment_in_debian() {
 prepare_environment_in_centos() {
   yum -y install curl
   yum groupinstall "Development Tools"
-  curl https://nodejs.org/download/release/v0.12.9/node-v0.12.9-linux-x64.tar.gz | tar --strip-components 1 -xzv -C /usr/local
+  curl $NODE_DOWNLOAD_URL | tar --strip-components 1 -xzv -C /usr/local
 
   if [ "$VERSION" != "release" ]; then
     yum -y install git
