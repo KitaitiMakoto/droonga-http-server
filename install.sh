@@ -288,7 +288,13 @@ installed_version() {
   $NAME --version
 }
 
-
+install_nodejs() {
+  echo "Installing Node.js $NODE_VERSION $NODE_ARCH..."
+  mkdir $NODEJS_BASE_DIR
+  curl $NODEJS_DOWNLOAD_URL | tar -xzv --strip-components 1 -C $NODEJS_BASE_DIR
+  chown -R $USER:$GROUP $NODEJS_BASE_DIR
+  export PATH=$NODEJS_BASE_DIR/bin:$PATH
+}
 
 # ====================== for Debian/Ubuntu ==========================
 prepare_environment_in_debian() {
