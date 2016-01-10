@@ -299,7 +299,7 @@ install_nodejs() {
 # ====================== for Debian/Ubuntu ==========================
 prepare_environment_in_debian() {
   apt-get update
-  apt-get install -y curl nodejs nodejs-legacy npm
+  apt-get install -y curl
 
   if [ "$VERSION" != "release" ]; then
     apt-get install -y git
@@ -311,9 +311,8 @@ prepare_environment_in_debian() {
 
 # ========================= for CentOS 7 ============================
 prepare_environment_in_centos() {
-  yum -y install curl
+  yum -y install curl sudo
   yum groupinstall "Development Tools"
-  curl $NODE_DOWNLOAD_URL | tar --strip-components 1 -xzv -C /usr/local
 
   if [ "$VERSION" != "release" ]; then
     yum -y install git
@@ -329,13 +328,17 @@ install() {
   echo "Preparing the environment..."
   prepare_environment_in_$PLATFORM
 
+  prepare_user
+
+  install_nodejs
+
   echo ""
   if [ "$VERSION" != "release" ]; then
     echo "Installing $NAME from the git repository..."
     install_from_repository
   else
     echo "Installing $NAME from npmjs.org..."
-    npm install -g droonga-http-server
+    sudo -u $USER bash -c "PATH=$NODEJS_BASE_DIR/bin:$PATH npm install -g droonga-http-server"
   fi
 
   if ! exist_command droonga-http-server; then
@@ -352,8 +355,6 @@ install() {
     echo "ERROR: Downloaded post-installation script is broken!"
     exit 1
   fi
-
-  prepare_user
 
   setup_configuration_directory
 
