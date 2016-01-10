@@ -5,7 +5,7 @@ Description=Droonga HTTP Server
 Environment="PATH=/home/droonga-http-server/node/bin:/home/droonga-http-server/bin:/usr/local/bin:/usr/bin:/bin"
 User=droonga-http-server
 Group=droonga
-ExecStart=/usr/local/bin/droonga-http-server
+ExecStart=/home/droonga-http-server/node/bin/droonga-http-server
 ExecStop=/bin/kill -TERM $MAINPID
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
