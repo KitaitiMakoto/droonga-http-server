@@ -2,6 +2,7 @@
 Description=Droonga HTTP Server
 
 [Service]
+Environment="PATH=/home/droonga-http-server/node/bin:/home/droonga-http-server/bin:/usr/local/bin:/usr/bin:/bin"
 User=droonga-http-server
 Group=droonga
 ExecStart=/usr/local/bin/droonga-http-server
