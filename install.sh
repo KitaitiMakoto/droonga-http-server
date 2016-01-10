@@ -43,17 +43,18 @@ TEMPDIR=/tmp/install-$NAME
 
 EXPRESS_DROONGA_REPOSITORY_URL=git://github.com/droonga/express-droonga.git#master
 
-NODE_BASE_URL=https://nodejs.org/download/release
+NODEJS_BASE_DIR=/home/$USER/node
+NODEJS_BASE_URL=https://nodejs.org/download/release
 
 : ${VERSION:=release}
 : ${HOST:=Auto Detect}
 : ${PORT:=10041}
 : ${ENGINE_HOST:=Auto Detect}
 : ${ENGINE_PORT:=Auto Detect}
-: ${NODE_VERSION:=v0.12.9}
-: ${NODE_ARCH:=x64}
+: ${NODEJS_VERSION:=v0.12.9}
+: ${NODEJS_ARCH:=x64}
 
-NODE_DOWNLOAD_URL=$NODE_BASE_URL/$NODE_VERSION/node-$NODE_VERSION-linux-$NODE_ARCH.tar.gz
+NODEJS_DOWNLOAD_URL=$NODEJS_BASE_URL/$NODEJS_VERSION/node-$NODEJS_VERSION-linux-$NODEJS_ARCH.tar.gz
 
 case $(uname) in
   Darwin|*BSD|CYGWIN*) sed="sed -E" ;;
