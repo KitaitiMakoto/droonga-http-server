@@ -18,15 +18,11 @@ register_service() {
   local USER=$2
   local GROUP=$3
 
-  for filename in $NAME ${NAME}.service
-  do
-    curl -s -o /etc/rc.d/init.d/$filename $(download_url "install/centos/$filename")
-    if [ $? -ne 0 ]; then
-      echo "ERROR: Failed to download service script!"
-      exit 1
-    fi
-  done
+  curl -s -o /usr/lib/systemd/system/$NAME.service $(download_url "install/centos/$NAME.service")
+  if [ $? -ne 0 ]; then
+    echo "ERROR: Failed to download service script!"
+    exit 1
+  fi
 
-  chmod +x /etc/rc.d/init.d/$NAME
-  /sbin/chkconfig --add $NAME
+  /usr/bin/systemctl enable $NAME.service
 }
