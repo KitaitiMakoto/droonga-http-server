@@ -34,8 +34,10 @@
 #     # curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | HOST=xxx.xxx.xxx.xxx ENGINE_HOST=xxx.xxx.xxx.xxx bash
 
 NAME=droonga-http-server
-DOWNLOAD_URL_BASE=https://raw.githubusercontent.com/droonga/$NAME
-REPOSITORY_URL=https://github.com/droonga/$NAME.git
+# DOWNLOAD_URL_BASE=https://raw.githubusercontent.com/droonga/$NAME
+# REPOSITORY_URL=https://github.com/droonga/$NAME.git
+DOWNLOAD_URL_BASE=https://raw.githubusercontent.com/KitaitiMakoto/$NAME
+REPOSITORY_URL=https://github.com/KitaitiMakoto/$NAME.git
 USER=$NAME
 GROUP=droonga
 DROONGA_BASE_DIR=/home/$USER/droonga
@@ -264,14 +266,14 @@ install_from_repository() {
     git pull --rebase
     git checkout $VERSION
     use_master_express_droonga
-    npm update
+    sudo -u $USER bash -c "PATH=$NODEJS_BASE_DIR/bin:$PATH npm update"
   else
     git clone $REPOSITORY_URL
     cd $NAME
     git checkout $VERSION
     use_master_express_droonga
   fi
-  npm install -g
+  sudo -u $USER bash -c "$NODEJS_BASE_DIR/bin:$PATH npm install -g"
   rm package.json
   mv package.json.bak package.json
 }
@@ -286,6 +288,11 @@ download_url() {
 
 installed_version() {
   $NAME --version
+}
+
+exist_nodejs() {
+  local nodejs_binary=$NODEJS_BASE_DIR/bin/node
+  test -e $nodejs_binary && $nodejs_binary --version = $NODEJS_VERSION
 }
 
 install_nodejs() {
@@ -330,7 +337,9 @@ install() {
 
   prepare_user
 
-  install_nodejs
+  if [ ! $(exist_nodejs) ]; then
+    install_nodejs
+  fi
 
   echo ""
   if [ "$VERSION" != "release" ]; then
